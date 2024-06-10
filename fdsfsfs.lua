@@ -49,8 +49,6 @@ local blacklisted_keys = {
 	[Enum.KeyCode.Delete] = true,
 	[Enum.KeyCode.Insert] = true,
 	[Enum.UserInputType.MouseButton1] = true,
-	[Enum.UserInputType.MouseButton2] = true,
-	[Enum.UserInputType.MouseButton3] = true,
 	[Enum.KeyCode.One] = true,
 	[Enum.KeyCode.Two] = true,
 	[Enum.KeyCode.Three] = true,
@@ -4494,7 +4492,7 @@ function Library:Window(options)
 						end
 						
 						local function set(key)
-							
+
 							if typeof(key) == "EnumItem" then
 								Keybind.RegKeybind = key
 							elseif typeof(key) == "string" then
@@ -4508,13 +4506,28 @@ function Library:Window(options)
 									key = Enum.UserInputType[key:gsub("INPUT_", "")]
 								end
 							end
-							
+
 							if blacklisted_keys[key] then
 								key = nil
 							end
 
-							if key and (keys[key] or uis:GetStringForKeyCode(key) ~= "") then
-								local key_str = keys[key] or uis:GetStringForKeyCode(key)
+							local isValidKey = false
+							local key_str = ""
+
+							if key then
+								if key == Enum.UserInputType.MouseButton2 then
+									isValidKey = true
+									key_str = "MouseButton2"
+								elseif key == Enum.UserInputType.MouseButton3 then
+									isValidKey = true
+									key_str = "MouseButton3"
+								elseif keys[key] or uis:GetStringForKeyCode(key) ~= "" then
+									isValidKey = true
+									key_str = keys[key] or uis:GetStringForKeyCode(key)
+								end
+							end
+
+							if isValidKey then
 								Keybind.Keybind = key_str
 								options.Callback(key)
 								Library.Flags[options.Flag] = key
@@ -4524,7 +4537,6 @@ function Library:Window(options)
 								Keybind["36"].Position = UDim2.new(1, -(Keybind["38"].TextBounds.X + 25), 0, 0)
 							else
 								Keybind.Keybind = "None"
-								
 								Toggle["36"].Size = UDim2.new(1, -Keybind["36"].AbsoluteSize.X - 30, 1, -4)
 								Keybind["38"].Text = Keybind.Keybind
 								Keybind["36"].Size = UDim2.new(0, Keybind["38"].TextBounds.X + 25, 0, 13)
@@ -4564,8 +4576,10 @@ function Library:Window(options)
 						
 						uis.InputBegan:Connect(function(input, gpe)
 							if gpe then return end
-							
-							if input.UserInputType == Enum.UserInputType.Keyboard and Keybind.Keybind ~= "None" and input.KeyCode == Keybind.RegKeybind then
+
+							if (input.UserInputType == Enum.UserInputType.Keyboard and Keybind.Keybind ~= "None" and input.KeyCode == Keybind.RegKeybind) or
+								(input.UserInputType == Enum.UserInputType.MouseButton2 and Keybind.Keybind == "MouseButton2") or
+								(input.UserInputType == Enum.UserInputType.MouseButton3 and Keybind.Keybind == "MouseButton3") then
 								if Keybind.Mode == "Always" then
 									Keybind:Toggle(true)
 								else
@@ -4573,12 +4587,14 @@ function Library:Window(options)
 								end
 							end
 						end)
-						
+
 						uis.InputEnded:Connect(function(input, gpe)
 							if gpe then return end
-							
+
 							if Keybind.Mode == "On Hold" or Keybind.Mode == "Off Hold" then
-								if input.UserInputType == Enum.UserInputType.Keyboard and Keybind.Keybind ~= "None" and input.KeyCode == Keybind.RegKeybind then
+								if (input.UserInputType == Enum.UserInputType.Keyboard and Keybind.Keybind ~= "None" and input.KeyCode == Keybind.RegKeybind) or
+									(input.UserInputType == Enum.UserInputType.MouseButton2 and Keybind.Keybind == "MouseButton2") or
+									(input.UserInputType == Enum.UserInputType.MouseButton3 and Keybind.Keybind == "MouseButton3") then
 									Keybind:Toggle()
 								end
 							end
