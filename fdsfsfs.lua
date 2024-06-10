@@ -29,42 +29,50 @@ local keys = {
 	[Enum.KeyCode.RightControl] = "R-CTRL",
 	[Enum.KeyCode.LeftAlt] = "L-ALT",
 	[Enum.KeyCode.RightAlt] = "R-ALT",
-	[Enum.KeyCode.CapsLock] = "CAPSLOCK",
-	[Enum.KeyCode.Home] = "HOME",
-	[Enum.KeyCode.PageUp] = "PAGE-UP",
-	[Enum.KeyCode.PageDown] = "PAGE-DOWN",
-	[Enum.KeyCode.End] = "END",
-	[Enum.KeyCode.Tab] = "TAB",
+	[Enum.KeyCode.CapsLock] = "CAPS",
+	[Enum.KeyCode.One] = "1",
+	[Enum.KeyCode.Two] = "2",
+	[Enum.KeyCode.Three] = "3",
+	[Enum.KeyCode.Four] = "4",
+	[Enum.KeyCode.Five] = "5",
+	[Enum.KeyCode.Six] = "6",
+	[Enum.KeyCode.Seven] = "7",
+	[Enum.KeyCode.Eight] = "8",
+	[Enum.KeyCode.Nine] = "9",
+	[Enum.KeyCode.Zero] = "0",
+	[Enum.KeyCode.KeypadOne] = "NUM1",
+	[Enum.KeyCode.KeypadTwo] = "NUM2",
+	[Enum.KeyCode.KeypadThree] = "NUM3",
+	[Enum.KeyCode.KeypadFour] = "NUM4",
+	[Enum.KeyCode.KeypadFive] = "NUM5",
+	[Enum.KeyCode.KeypadSix] = "NUM6",
+	[Enum.KeyCode.KeypadSeven] = "NUM7",
+	[Enum.KeyCode.KeypadEight] = "NUM8",
+	[Enum.KeyCode.KeypadNine] = "NUM9",
+	[Enum.KeyCode.KeypadZero] = "NUM0",
+	[Enum.KeyCode.Minus] = "-",
+	[Enum.KeyCode.Equals] = "=",
+	[Enum.KeyCode.Tilde] = "~",
+	[Enum.KeyCode.LeftBracket] = "[",
+	[Enum.KeyCode.RightBracket] = "]",
+	[Enum.KeyCode.RightParenthesis] = ")",
+	[Enum.KeyCode.LeftParenthesis] = "(",
+	[Enum.KeyCode.Semicolon] = ";",
+	[Enum.KeyCode.Quote] = "'",
+	[Enum.KeyCode.BackSlash] = "\\",
+	[Enum.KeyCode.Comma] = ",",
+	[Enum.KeyCode.Period] = ".",
+	[Enum.KeyCode.Slash] = "/",
+	[Enum.KeyCode.Asterisk] = "*",
+	[Enum.KeyCode.Plus] = "+",
+	[Enum.KeyCode.Period] = ".",
+	[Enum.KeyCode.Backquote] = "`",
+	[Enum.UserInputType.MouseButton1] = "MB1",
+	[Enum.UserInputType.MouseButton2] = "MB2",
+	[Enum.UserInputType.MouseButton3] = "MB3"
 }
 
-local blacklisted_keys = {
-	[Enum.KeyCode.W] = true,
-	[Enum.KeyCode.A] = true,
-	[Enum.KeyCode.S] = true,
-	[Enum.KeyCode.D] = true,
-	[Enum.KeyCode.Space] = true,
-	[Enum.KeyCode.Escape] = true,
-	[Enum.KeyCode.Backspace] = true,
-	[Enum.KeyCode.Slash] = true,
-	[Enum.KeyCode.Delete] = true,
-	[Enum.KeyCode.Insert] = true,
-	[Enum.UserInputType.MouseButton1] = true,
-	[Enum.KeyCode.One] = true,
-	[Enum.KeyCode.Two] = true,
-	[Enum.KeyCode.Three] = true,
-	[Enum.KeyCode.Four] = true,
-	[Enum.KeyCode.Five] = true,
-	[Enum.KeyCode.Six] = true,
-	[Enum.KeyCode.Seven] = true,
-	[Enum.KeyCode.Eight] = true,
-	[Enum.KeyCode.Nine] = true,
-	[Enum.KeyCode.Zero] = true,
-}
-
-local enums = {}
 local Notifications = {}
-
-local Scaling = {True = false, Origin = nil, Size = nil}
 local Dragging = {Gui = nil, True = false}
 local Draggables = {}
 
@@ -4507,21 +4515,11 @@ function Library:Window(options)
 								end
 							end
 
-							if blacklisted_keys[key] then
-								key = nil
-							end
-
 							local isValidKey = false
 							local key_str = ""
 
 							if key then
-								if key == Enum.UserInputType.MouseButton2 then
-									isValidKey = true
-									key_str = "MouseButton2"
-								elseif key == Enum.UserInputType.MouseButton3 then
-									isValidKey = true
-									key_str = "MouseButton3"
-								elseif keys[key] or uis:GetStringForKeyCode(key) ~= "" then
+								if keys[key] or uis:GetStringForKeyCode(key) ~= "" then
 									isValidKey = true
 									key_str = keys[key] or uis:GetStringForKeyCode(key)
 								end
@@ -4578,8 +4576,9 @@ function Library:Window(options)
 							if gpe then return end
 
 							if (input.UserInputType == Enum.UserInputType.Keyboard and Keybind.Keybind ~= "None" and input.KeyCode == Keybind.RegKeybind) or
-								(input.UserInputType == Enum.UserInputType.MouseButton2 and Keybind.Keybind == "MouseButton2") or
-								(input.UserInputType == Enum.UserInputType.MouseButton3 and Keybind.Keybind == "MouseButton3") then
+								(input.UserInputType == Enum.UserInputType.MouseButton1 and Keybind.Keybind == "MB1") or
+								(input.UserInputType == Enum.UserInputType.MouseButton2 and Keybind.Keybind == "MB2") or
+								(input.UserInputType == Enum.UserInputType.MouseButton3 and Keybind.Keybind == "MB3") then
 								if Keybind.Mode == "Always" then
 									Keybind:Toggle(true)
 								else
@@ -4593,8 +4592,9 @@ function Library:Window(options)
 
 							if Keybind.Mode == "On Hold" or Keybind.Mode == "Off Hold" then
 								if (input.UserInputType == Enum.UserInputType.Keyboard and Keybind.Keybind ~= "None" and input.KeyCode == Keybind.RegKeybind) or
-									(input.UserInputType == Enum.UserInputType.MouseButton2 and Keybind.Keybind == "MouseButton2") or
-									(input.UserInputType == Enum.UserInputType.MouseButton3 and Keybind.Keybind == "MouseButton3") then
+									(input.UserInputType == Enum.UserInputType.MouseButton1 and Keybind.Keybind == "MB1") or
+									(input.UserInputType == Enum.UserInputType.MouseButton2 and Keybind.Keybind == "MB2") or
+									(input.UserInputType == Enum.UserInputType.MouseButton3 and Keybind.Keybind == "MB3") then
 									Keybind:Toggle()
 								end
 							end
