@@ -65,11 +65,11 @@ getgenv().esp = {
     FlagList = {"Moving"},
     TextLayout = {
         ['nametag']  = { enabled = true, position = 'top', order = 1 },
-        ['name']     = { enabled = true, position = 'top', order = 2 },
-        ['health']   = { enabled = true, position = 'left', order = 1, bar = 'health' },
-        ['tool']     = { enabled = true, position = 'bottom', suffix = '', prefix = '', order = 2 },
-        ['distance'] = { enabled = true, position = 'bottom', suffix = 'st', order = 1 },
-        ['flags'] = { enabled = true, position = 'right', order = 2 },
+        ['name']     = { enabled = true, position = 'top', order = 2, name = "Name" },
+        ['health']   = { enabled = true, position = 'left', order = 1, bar = 'health' name = "Health Text" },
+        ['tool']     = { enabled = true, position = 'bottom', suffix = '', prefix = '', order = 2, name = "Weapon" },
+        ['distance'] = { enabled = true, position = 'bottom', suffix = 'st', order = 1 name = "Distance" },
+        ['flags'] = { enabled = true, position = 'right', order = 2 name = "Flags" },
     },
 
     BarLayout = {
@@ -552,8 +552,16 @@ function player:Step(delta)
                     local layout = data[2]
                     local drawing = data[3]
                     local data = text_data[flag]
+
+                    local TextCheck;
+
+                    if not screen_visible then
+                        TextCheck = table.find(ArrowTypes, layout.name)
+                    else
+                        TextCheck = layout.enabled
+                    end
         
-                    if not layout.enabled or data.enabled == false then
+                    if not TextCheck then
                         continue
                     end
         
