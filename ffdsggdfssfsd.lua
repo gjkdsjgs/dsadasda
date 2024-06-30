@@ -61,7 +61,7 @@ getgenv().esp = {
     TextEnabled = true,
     UseDisplay = true,
     TextColor = Color3.fromRGB(255, 255, 255),
-    FlagList = {},
+    FlagList = {"Moving"},
     TextLayout = {
         ['nametag']  = { enabled = true, position = 'top', order = 1 },
         ['name']     = { enabled = true, position = 'top', order = 2 },
