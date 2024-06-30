@@ -214,6 +214,10 @@ function RayCast(Part, Origin, Ignore, Distance)
 end
 
 function TableToString(Table)
+    if #Table == 0 then
+        return ""
+    end
+    --
     if #Table > 1 then
         local Text = ""
         --
