@@ -41,6 +41,7 @@ getgenv().esp = {
     OutOfViewArrowColor = Color3.fromRGB(0, 255, 0),
     OutOfViewArrowFilled = true,
     OutOfViewArrowTransparency = 0.7,
+    OutOfViewArrowList = {"Name"},
 
     WallCheck = false,
     TeamCheck = false,
@@ -492,6 +493,7 @@ function player:Step(delta)
     end
 
         if size and position then
+            local ArrowTypes = (not screen_visible and esp.OutOfViewArrowList)
             local bar_data = self:GetBarData(check_data)
             local bar_positions = { top = 0, bottom = 0, left = 0, right = 0 }
         
@@ -501,8 +503,16 @@ function player:Step(delta)
                 local outline = data[3]
                 local inline = data[4]
                 local data = bar_data[flag]
+
+                local BarCheck;
+
+                if not screen_visible then
+                    BarCheck = table.find(ArrowTypes, "Health Bar")
+                else
+                    BarCheck = layout.enabled
+                end
         
-                if not layout.enabled or data.enabled == false then
+                if not BarCheck then
                     continue
                 end
         
