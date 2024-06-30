@@ -64,7 +64,6 @@ getgenv().esp = {
     TextColor = Color3.fromRGB(255, 255, 255),
     FlagList = {"Moving"},
     TextLayout = {
-        ['nametag']  = { enabled = true, position = 'top', order = 1 },
         ['name']     = { enabled = true, position = 'top', order = 2, name = "Name" },
         ['health']   = { enabled = true, position = 'left', order = 1, bar = 'health', name = "Health Text" },
         ['tool']     = { enabled = true, position = 'bottom', suffix = '', prefix = '', order = 2, name = "Weapon" },
@@ -626,7 +625,6 @@ function player:GetTextData(data)
     end
     --
     return {
-        ['nametag']  = { text = self.nametag_text, enabled = self.nametag_enabled, color = self.nametag_color },
         ['name']     = { text = esp.UseDisplay and self.instance.DisplayName or self.instance.Name},
         ['health']   = { text = tostring(math.floor(data.health)), color = esp.BarLayout.health.color_empty:lerp(esp.BarLayout.health.color_full, data.healthfactor) },
         ['distance'] = { text = tostring(math.floor(data.distance)) },
@@ -695,24 +693,6 @@ function player:SetHighlightColor(color, color2)
     self.outlinehighlightcolor = color2
 end
 
-function player:SetNametagText(str)
-    self.nametag_text = str
-end
-
-function player:SetNametagEnabled(bool)
-    self.nametag_enabled = bool
-end
-
-function player:SetNametagColor(color)
-    self.nametag_color = color
-end
-
-function player:SetNametag(str, bool, color)
-    self:SetNametagText(str)
-    self:SetNametagEnabled(bool)
-    self:SetNametagColor(color)
-end
-
 function player:SetVisible(bool)
     if self.visible ~= bool then
         self.visible = bool
@@ -737,9 +717,6 @@ function esp.NewPlayer(player_instance, type)
     player.instance = player_instance
     player.priority = false
     player.useboxcolor = false
-    player.nametag_enabled = false
-    player.nametag_text = 'nametag'
-    player.nametag_color = Color3.new(1,1,1)
     player.boxcolor = Color3.new(1,1,1)
 
     player.highlight = Instance.new('Highlight')
