@@ -61,6 +61,7 @@ getgenv().esp = {
     TextEnabled = true,
     UseDisplay = true,
     TextColor = Color3.fromRGB(255, 255, 255),
+    FlagList = {},
     TextLayout = {
         ['nametag']  = { enabled = true, position = 'top', order = 1 },
         ['name']     = { enabled = true, position = 'top', order = 2 },
@@ -576,23 +577,23 @@ function player:GetTextData(data)
     local Text
     local CurrentFlags = {}
     --
-    if data.humanoid.MoveDirection.Magnitude > 0 then
+    if data.humanoid.MoveDirection.Magnitude > 0 and table.find(esp.FlagList, "Moving") then
         table.insert(CurrentFlags, "Moving")
     end
     --
-    if data.humanoid.MoveDirection.Magnitude == 0 then
+    if data.humanoid.MoveDirection.Magnitude == 0 and table.find(esp.FlagList, "Standing") then
         table.insert(CurrentFlags, "Standing")
     end
     --
-    if data.rootpart.Velocity.Y >= 5 then
+    if data.rootpart.Velocity.Y >= 5 and table.find(esp.FlagList, "Jumping") then
         table.insert(CurrentFlags, "Jumping")
     end
     --
-    if IsUsingAntiAim(data.player) then
+    if IsUsingAntiAim(data.player) and table.find(esp.FlagList, "Desynced") then
         table.insert(CurrentFlags, "Desynced")
     end
     --
-    if self.priority then
+    if self.priority and table.find(esp.FlagList, "Target") then
         table.insert(CurrentFlags, "Target")
     end
     --
