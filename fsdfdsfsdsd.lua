@@ -566,7 +566,7 @@ function player:Step(delta)
         
                     drawing.Visible = true
                     drawing.Text = (layout.prefix or '') .. (data.text or '') .. (layout.suffix or '')
-                    drawing.Color = layout.name == "Target" and esp.PriorityColor or esp.TextColor
+                    drawing.Color = esp.TextColor
                     drawing.Size = 13
         
                     if layout.bar then
