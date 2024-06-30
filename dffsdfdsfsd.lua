@@ -66,7 +66,7 @@ getgenv().esp = {
     TextLayout = {
         ['nametag']  = { enabled = true, position = 'top', order = 1 },
         ['name']     = { enabled = true, position = 'top', order = 2, name = "Name" },
-        ['health']   = { enabled = true, position = 'left', order = 1, bar = 'health' name = "Health Text" },
+        ['health']   = { enabled = true, position = 'left', order = 1, bar = 'health', name = "Health Text" },
         ['tool']     = { enabled = true, position = 'bottom', suffix = '', prefix = '', order = 2, name = "Weapon" },
         ['distance'] = { enabled = true, position = 'bottom', suffix = 'st', order = 1, name = "Distance" },
         ['flags'] = { enabled = true, position = 'right', order = 2, name = "Flags" },
